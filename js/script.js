@@ -2,12 +2,6 @@
 async function jsonData() {
     let api = await fetch("json/words.json");
     let words = await api.json();
-    const levels = {
-        "easy": 7,
-        "normal": 5,
-        "hard": 3};
-    let defaultLevel = "easy";
-    let defaultLevelSeconds = levels[defaultLevel];
     let startButton = document.querySelector(".start");
     let levelName = document.querySelector(".message .lvl");
     let seconds = document.querySelector(".message .seconds");
@@ -19,11 +13,17 @@ async function jsonData() {
     let scoreTotal = document.querySelector(".score .total");
     let finishMessage = document.querySelector(".finish");
     let control = document.querySelector(".control");
+    const levels = {
+        "easy": 7,
+        "normal": 5,
+        "hard": 3};
+    let defaultLevel = "easy";
+    let defaultLevelSeconds = levels[defaultLevel];
     levelName.innerHTML = defaultLevel;
     seconds.innerHTML = defaultLevelSeconds;
     timeLeftSpan.innerHTML = defaultLevelSeconds;
     input.onpaste = () => false;
-    levelWordsFunction(words[0])
+    levelWordsFunction(words[0]);
     document.querySelectorAll('input[type="radio"]').forEach((e) => {
         e.addEventListener("click",(radio) => {
             defaultLevel = radio.target.dataset.level;
@@ -44,13 +44,14 @@ async function jsonData() {
         scoreTotal.innerHTML = words.length;
         startButton.addEventListener("click", function(){
             this.remove();
-            input.focus();
             generateWords();
             input.style.display = "block";
             control.style.display = "flex";
             document.querySelector(".game .container .levels").style.display = "none";
+            input.focus();
         });
         function generateWords() {
+            startPlay();
             let random = words[Math.floor(Math.random() * words.length)];
             let wordIndex = words.indexOf(random);
             words.splice(wordIndex,1);
@@ -61,12 +62,11 @@ async function jsonData() {
                 div.textContent = words[i];
                 upcomingWords.appendChild(div);
             };
-            startPlay();
         };
         function startPlay() {
             let start = setInterval(() => {
                 timeLeftSpan.innerHTML--;
-                if(timeLeftSpan.innerHTML === "0"){
+                if(timeLeftSpan.innerHTML === '0'){
                     clearInterval(start);
                     if(theWord.innerHTML.toLocaleLowerCase() === input.value.toLocaleLowerCase()){
                         input.value = "";
