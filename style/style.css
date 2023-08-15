@@ -1,0 +1,148 @@
+*{  box-sizing: border-box;
+    text-transform: capitalize;
+    user-select: none;
+    margin: 0;
+    padding: 0;}
+:root{
+    --radius: 6px;
+    --cursor: pointer;
+    --main-color:#2196f3;}
+::-webkit-scrollbar{width: 0;}
+a{text-decoration: none;}
+button{
+    border: none;
+    outline: none;
+    background-color: transparent;
+    cursor: var(--cursor);}
+body{font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+.game{
+    background-color: #eee;
+    min-height: 100vh;}
+.game .name{
+    background-color: var(--main-color);
+    color: white;
+    padding: 20px;
+    font-size: 25px;
+    text-align: center;
+    font-weight: bold;}
+.game .container{
+    position: relative;
+    margin: auto;
+    max-width: 900px;}
+.game .container .levels{
+    background-color: var(--main-color);
+    border-radius: var(--radius);
+    color: white;
+    padding: 15px;
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;}
+.game .container .levels input{display: none;}
+.game .container .levels label{
+    background-color: #009688;
+    border-radius: var(--radius);
+    cursor: var(--cursor);
+    padding: 5px 10px;
+    border-radius: var(--radius);
+    font-weight: bold;}
+.game .container .message{
+    background-color: white;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: var(--radius);
+    text-align: center;}
+.game .container .message span{
+    font-weight: bold;
+    color: #009688;}
+.message span::before{content: "[ ";}
+.message span::after{content: " ]";}
+.game .container .start{
+    font-size: 20px;
+    border-radius: var(--radius);
+    font-weight: bold;
+    text-align: center;
+    background-color: #009688;
+    color: white;
+    padding: 20px;
+    cursor: var(--cursor);}
+.game .container .the-word{
+    text-align: center;
+    font-weight: bold;
+    font-size: 60px;
+    color: var(--main-color);}
+.input{
+    outline: none;
+    display: none;
+    margin: 15px 0;
+    width: 100%;
+    padding: 15px;
+    height: 60px;
+    border: 3px solid var(--main-color);
+    font-size: 20px;
+    text-align: center;
+    border-radius: var(--radius);
+    caret-color: var(--main-color);}
+.upcoming-words{
+    border-radius: var(--radius);
+    background-color: white;
+    margin: 15px 0;
+    padding: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;}
+.upcoming-words div{
+    background-color: var(--main-color);
+    color: white;
+    font-weight: bold;
+    margin: 4px;
+    padding: 10px;
+    border-radius: var(--radius);}
+.control{
+    border-radius: var(--radius);
+    display: none;
+    justify-content: space-between;
+    background-color: white;
+    padding: 15px;}
+.control span{
+    font-weight: bold;
+    color: #009688;}
+.finish{
+    background-color: rgba(33, 150, 243, .9);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: white;
+    width: 100%;
+    height: 250px;
+    font-weight: bold;
+    font-size: 30px;
+    text-align: center;
+    margin: 15px auto;
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: none;}
+.finish .bad,.finish .good{
+    padding: 10px;
+    width: inherit;
+    height: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;}
+.finish button{
+    background-color: #009688;
+    color: white;
+    width: fit-content;
+    font-size: 1.4rem;
+    padding: 5px 10px;
+    border-radius: var(--radius);
+    font-weight: 500;}
+@media (max-width: 768px) {
+    :root{--cursor: default;}
+    .game .container{width: 95%;}
+    .game .container .the-word{font-size: 2rem;}}
