@@ -25,15 +25,19 @@ async function jsonData() {
             levelName.innerHTML = defaultLevel;
             seconds.innerHTML = defaultLevelSeconds;
             timeLeftSpan.innerHTML = defaultLevelSeconds;
+
+
+
             if (radio.target.dataset.level === "hard") {
                 levelWordsFunction(words[2]);
-                labelId(radio.target.id);
             }else if(radio.target.dataset.level === "normal") {
                 levelWordsFunction(words[1]);
-                labelId(radio.target.id);
             } else {
                 levelWordsFunction(words[0]);
-                labelId(radio.target.id);};
+            };
+
+
+
             function labelId(id) {
                 document.querySelectorAll("label").forEach((e) => {
                     e.style.pointerEvents = "";
@@ -41,6 +45,7 @@ async function jsonData() {
                     .style.pointerEvents = "none";
                 });
             };
+            labelId(radio.target.id);
         });
     });
     function levelWordsFunction(words) {
