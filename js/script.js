@@ -17,26 +17,29 @@ async function jsonData() {
         "easy": 7,
         "normal": 5,
         "hard": 3};
-    let defaultLevel = "easy";
-    let defaultLevelSeconds = levels[defaultLevel];
-    levelName.innerHTML = defaultLevel;
-    seconds.innerHTML = defaultLevelSeconds;
-    timeLeftSpan.innerHTML = defaultLevelSeconds;
     input.onpaste = () => false;
-    levelWordsFunction(words[0]);
     document.querySelectorAll('input[type="radio"]').forEach((e) => {
         e.addEventListener("click",(radio) => {
-            defaultLevel = radio.target.dataset.level;
-            defaultLevelSeconds = levels[defaultLevel];
+            let defaultLevel = radio.target.dataset.level;
+            let defaultLevelSeconds = levels[defaultLevel];
             levelName.innerHTML = defaultLevel;
             seconds.innerHTML = defaultLevelSeconds;
             timeLeftSpan.innerHTML = defaultLevelSeconds;
             if (radio.target.dataset.level === "hard") {
                 levelWordsFunction(words[2]);
+                labelId(radio.target.id);
             }else if(radio.target.dataset.level === "normal") {
                 levelWordsFunction(words[1]);
+                labelId(radio.target.id);
             } else {
                 levelWordsFunction(words[0]);
+                labelId(radio.target.id);};
+            function labelId(id) {
+                document.querySelectorAll("label").forEach((e) => {
+                    e.style.pointerEvents = "";
+                    document.querySelector(`label[for="${id}"]`)
+                    .style.pointerEvents = "none";
+                });
             };
         });
     });
