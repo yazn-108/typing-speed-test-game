@@ -17,35 +17,21 @@ async function jsonData() {
         "easy": 7,
         "normal": 5,
         "hard": 3};
+    let defaultLevel;
+    let defaultLevelSeconds;
     input.onpaste = () => false;
     document.querySelectorAll('input[type="radio"]').forEach((e) => {
         e.addEventListener("click",(radio) => {
-            let defaultLevel = radio.target.dataset.level;
-            let defaultLevelSeconds = levels[defaultLevel];
+            defaultLevel = radio.target.dataset.level;
+            defaultLevelSeconds = levels[defaultLevel];
             levelName.innerHTML = defaultLevel;
             seconds.innerHTML = defaultLevelSeconds;
             timeLeftSpan.innerHTML = defaultLevelSeconds;
-
-
-
-            if (radio.target.dataset.level === "hard") {
-                levelWordsFunction(words[2]);
-            }else if(radio.target.dataset.level === "normal") {
-                levelWordsFunction(words[1]);
-            } else {
-                levelWordsFunction(words[0]);
-            };
-
-
-
-            function labelId(id) {
-                document.querySelectorAll("label").forEach((e) => {
-                    e.style.pointerEvents = "";
-                    document.querySelector(`label[for="${id}"]`)
-                    .style.pointerEvents = "none";
-                });
-            };
-            labelId(radio.target.id);
+            levelWordsFunction(words[parseInt(radio.target.className)]);
+            document.querySelectorAll("label").forEach((e) => {
+                e.style.pointerEvents = "none";
+                document.querySelector(`label[for="${radio.target.id}"]`).style.backgroundColor = "#009688";
+            });
         });
     });
     function levelWordsFunction(words) {
@@ -72,6 +58,7 @@ async function jsonData() {
             };
         };
         function startPlay() {
+            timeLeftSpan.innerHTML = defaultLevelSeconds;
             let start = setInterval(() => {
                 timeLeftSpan.innerHTML--;
                 if(timeLeftSpan.innerHTML === '0'){

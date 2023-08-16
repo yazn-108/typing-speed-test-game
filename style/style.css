@@ -42,7 +42,7 @@ body{font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
     gap: 15px;}
 .game .container .levels input{display: none;}
 .game .container .levels label{
-    background-color: #009688;
+    background-color: #222;
     border-radius: var(--radius);
     cursor: var(--cursor);
     padding: 5px 10px;
