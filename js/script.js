@@ -16,12 +16,13 @@ async function jsonData() {
     const levels = {
         "easy": 7,
         "normal": 5,
-        "hard": 3};
+        "hard": 3
+    };
     let defaultLevel;
     let defaultLevelSeconds;
     input.onpaste = () => false;
     document.querySelectorAll('input[type="radio"]').forEach((e) => {
-        e.addEventListener("click",(radio) => {
+        e.addEventListener("click", (radio) => {
             defaultLevel = radio.target.dataset.level;
             defaultLevelSeconds = levels[defaultLevel];
             levelName.innerHTML = defaultLevel;
@@ -36,19 +37,20 @@ async function jsonData() {
     });
     function levelWordsFunction(words) {
         scoreTotal.innerHTML = words.length;
-        startButton.addEventListener("click", function(){
+        startButton.addEventListener("click", function () {
             this.remove();
             generateWords();
             input.style.display = "block";
             control.style.display = "flex";
             document.querySelector(".game .container .levels").style.display = "none";
             input.focus();
+            document.querySelector(".results").style.display = "none";
         });
         function generateWords() {
             startPlay();
             let random = words[Math.floor(Math.random() * words.length)];
             let wordIndex = words.indexOf(random);
-            words.splice(wordIndex,1);
+            words.splice(wordIndex, 1);
             theWord.innerHTML = random;
             upcomingWords.innerHTML = "";
             for (let i = 0; i < words.length; i++) {
@@ -61,14 +63,14 @@ async function jsonData() {
             timeLeftSpan.innerHTML = defaultLevelSeconds;
             let start = setInterval(() => {
                 timeLeftSpan.innerHTML--;
-                if(timeLeftSpan.innerHTML === '0'){
+                if (timeLeftSpan.innerHTML === '0') {
                     clearInterval(start);
-                    if(theWord.innerHTML.toLocaleLowerCase() === input.value.toLocaleLowerCase()){
+                    if (theWord.innerHTML.toLocaleLowerCase() === input.value.toLocaleLowerCase()) {
                         input.value = "";
                         scoreGot.innerHTML++;
-                        if(words.length > 0){
+                        if (words.length > 0) {
                             generateWords();
-                        }else{
+                        } else {
                             input.value = "";
                             input.style.pointerEvents = "none";
                             finishMessage.style.display = "block";
@@ -81,19 +83,35 @@ async function jsonData() {
                             finishMessage.appendChild(span);
                             span.appendChild(button);
                             upcomingWords.remove();
+                            let results = {
+                                level: defaultLevel,
+                                defaultTime: defaultLevelSeconds,
+                                wordsCount: scoreGot.innerHTML,
+                                totalWords: scoreTotal.innerHTML};
+                            let resultsArray = JSON.parse(sessionStorage.getItem("results")) || [];
+                            resultsArray.push(results);
+                            sessionStorage.setItem("results", JSON.stringify(resultsArray));
                         };
-                    }else{
-                    input.value = "";
-                    input.style.pointerEvents = "none";
-                    finishMessage.style.display = "block";
-                    let span = document.createElement("span");
-                    span.className = 'bad';
-                    span.textContent = "Game Over";
-                    let button = document.createElement("button");
-                    button.textContent = "try again";
-                    button.onclick = () => window.location.reload();
-                    finishMessage.appendChild(span);
-                    span.appendChild(button);
+                    } else {
+                        input.value = "";
+                        input.style.pointerEvents = "none";
+                        finishMessage.style.display = "block";
+                        let span = document.createElement("span");
+                        span.className = 'bad';
+                        span.textContent = "Game Over";
+                        let button = document.createElement("button");
+                        button.textContent = "try again";
+                        button.onclick = () => window.location.reload();
+                        finishMessage.appendChild(span);
+                        span.appendChild(button);
+                        let results = {
+                            level: defaultLevel,
+                            defaultTime: defaultLevelSeconds,
+                            wordsCount: scoreGot.innerHTML,
+                            totalWords: scoreTotal.innerHTML};
+                        let resultsArray = JSON.parse(sessionStorage.getItem("results")) || [];
+                        resultsArray.push(results);
+                        sessionStorage.setItem("results", JSON.stringify(resultsArray));
                     };
                 };
             }, 1000);
@@ -101,3 +119,28 @@ async function jsonData() {
     };
 };
 jsonData();
+window.addEventListener("load", () => {
+    let resultsData = JSON.parse(sessionStorage.getItem("results"))
+    if (resultsData !== null) {
+        document.querySelector(".results").style.display = "flex";
+        for (let i = 0; i < resultsData.length; i++) {
+            let p = document.createElement("p");
+            let levelSpan = document.createElement("span");
+            levelSpan.textContent = resultsData[i].level
+            p.appendChild(levelSpan);
+            let defaultTimeSpan = document.createElement("span");
+            defaultTimeSpan.textContent = resultsData[i].defaultTime
+            p.appendChild(defaultTimeSpan);
+            let wordsCountSpan = document.createElement("span");
+            wordsCountSpan.textContent = resultsData[i].wordsCount
+            p.appendChild(wordsCountSpan);
+            let totalWordsSpan = document.createElement("span");
+            totalWordsSpan.textContent = resultsData[i].totalWords
+            p.appendChild(totalWordsSpan);
+            document.querySelector(".results").appendChild(p);
+        };
+    };
+});
+document.querySelector(".results button").onclick = () => {
+    sessionStorage.clear();
+    document.querySelector(".results p:not(:first-child)").style.display = "none";};

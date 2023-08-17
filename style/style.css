@@ -142,6 +142,33 @@ body{font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
     padding: 5px 10px;
     border-radius: var(--radius);
     font-weight: 500;}
+.game .results{
+    background-color: var(--main-color);
+    border-radius: var(--radius);
+    color: white;
+    position: relative;
+    padding: 15px 5px;
+    display: none;
+    flex-direction: column;
+    gap: 5px;}
+.game .results p{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;}
+.game .results p:first-child span{padding: 0 0 15px;}
+.game .results p span{
+    width: 100px;
+    text-align: center;}
+.game .results button{
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--main-color);
+    border-radius: 4px;
+    padding: 8px 15px;
+    color: white;
+    font-weight: 500;}
 @media (max-width: 768px) {
     :root{--cursor: default;}
     .game .container{width: 95%;}
